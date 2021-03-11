@@ -73,8 +73,7 @@ const gameBoard = (() => {
         boardParts: _boardPartsArray,
     }
     
-    const buildBoard = (player1Name, player2Name, player1Weapon, player2Weapon, firstPlayer) => {
-        console.log(firstPlayer);
+    const buildBoard = (player1Name, player2Name, player1Weapon, player2Weapon, players, currentIndex) => {
         board.boardParts.forEach((square) => {
             const boardSquare = document.createElement('div');
             boardSquare.id = square;
@@ -84,23 +83,52 @@ const gameBoard = (() => {
             const mouseHoverSquare = (player1Weapon, player2Weapon) => {
                 letterSquare = document.getElementById(`${boardSquare.id}`);
                 const weaponHoverText = document.createElement('h2');
-                weaponHoverText.id = 'weaponHoverText';
-                weaponHoverText.textContent = firstPlayer.weapon;
-                letterSquare.appendChild(weaponHoverText);
+                weaponHoverText.id = `wHT${boardSquare.id}`;
+                weaponHoverText.classList.add('weaponHoverText');
+                const displayMoveText = document.getElementById(`dMT${boardSquare.id}`);
+                if (displayMoveText == null) {
+                    weaponHoverText.textContent = players[currentIndex].weapon;
+                    letterSquare.appendChild(weaponHoverText);
+                }
+                
                 return {
                     weaponHoverText,
                 }
             }
+            boardSquare.addEventListener('mouseenter', mouseHoverSquare.bind(player1Weapon, player2Weapon, squareName));
 
             const mouseLeaveSquare = () => {
-                let weaponHoverText = document.getElementById('weaponHoverText')
-                weaponHoverText.remove();
+                let weaponHoverText = document.getElementById(`wHT${boardSquare.id}`)
+                if (weaponHoverText) {
+                    weaponHoverText.remove();
+                }
             }
-            
-            boardSquare.addEventListener('mouseenter', mouseHoverSquare.bind(player1Weapon, player2Weapon, squareName));
             boardSquare.addEventListener('mouseleave', mouseLeaveSquare);
+
+            const displayMove = () => {
+                letterSquare = document.getElementById(`${boardSquare.id}`);
+                const displayMoveText = document.createElement('h2');
+                displayMoveText.id = (`dMT${boardSquare.id}`);
+                displayMoveText.classList.add('displayMoveText');
+                displayMoveText.textContent = players[currentIndex].weapon;;
+                
+                if (!letterSquare.classList.contains('containsMove')) {
+                    letterSquare.classList.add('containsMove');
+                    letterSquare.appendChild(displayMoveText);
+                    mouseLeaveSquare();
+                    if (currentIndex === 1) {
+                        currentIndex = 0;
+                    } else if (currentIndex === 0) {
+                        currentIndex = 1;
+                    }
+                }
+                return {
+                    displayMoveText,
+                }
+            }
+            boardSquare.addEventListener('click', displayMove);
             
-            //boardSquare.addEventListener('click',)
+            
             
             const gameHolder = document.getElementById('gameHolder');
             gameHolder.appendChild(boardSquare);
@@ -129,28 +157,33 @@ function loadGameScreen (startButton) {
             container.insertAdjacentElement('afterbegin', versusText);
     
         })();
-        
+        const players = getPlayers().players;
         const chooseStartingPlayer = (()  => {
-            let _playerIndex = Math.round(Math.random());
-            let firstPlayer = getPlayers().players[_playerIndex];
+            let currentIndex = Math.round(Math.random());
+            let currentPlayer = players[currentIndex];
+            
             return {
-                firstPlayer,
+                currentIndex,
+                currentPlayer,
             }
         })(player1Name, player2Name);
-        const firstPlayer = chooseStartingPlayer.firstPlayer;
+
+        const currentPlayer = chooseStartingPlayer.currentPlayer;
+        const currentIndex = chooseStartingPlayer.currentIndex;
         const firstPlayerText = document.createElement('h2');
         firstPlayerText.id = 'firstPlayerText';
-        firstPlayerText.textContent = `${chooseStartingPlayer.firstPlayer.name} goes first!`
+        firstPlayerText.textContent = `${chooseStartingPlayer.currentPlayer.name} goes first!`
         const versusText = document.getElementById('versusText');
         versusText.insertAdjacentElement('afterend', firstPlayerText);
 
         startButton.remove();
         playerInfoFormHolder.remove();
-        gameBoard.buildBoard(player1Name, player2Name, player1Weapon, player2Weapon, firstPlayer);
+        gameBoard.buildBoard(player1Name, player2Name, player1Weapon, player2Weapon, players, currentIndex);
         
     }
 
     beginGame(getPlayers().players[0].name, getPlayers().players[1].name, getPlayers().players[0].weapon, getPlayers().players[1].weapon);
+    gameLogic(gameBoard.board);
 }
 
 
@@ -177,5 +210,5 @@ const swapWeapon = (() => {
 })(); 
 
 const gameLogic = () => {
-
+ 
 }
