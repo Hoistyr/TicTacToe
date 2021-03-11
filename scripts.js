@@ -73,7 +73,8 @@ const gameBoard = (() => {
         boardParts: _boardPartsArray,
     }
     
-    const buildBoard = (player1Name, player2Name, player1Weapon, player2Weapon) => {
+    const buildBoard = (player1Name, player2Name, player1Weapon, player2Weapon, firstPlayer) => {
+        console.log(firstPlayer);
         board.boardParts.forEach((square) => {
             const boardSquare = document.createElement('div');
             boardSquare.id = square;
@@ -84,7 +85,7 @@ const gameBoard = (() => {
                 letterSquare = document.getElementById(`${boardSquare.id}`);
                 const weaponHoverText = document.createElement('h2');
                 weaponHoverText.id = 'weaponHoverText';
-                weaponHoverText.textContent = player1Weapon;
+                weaponHoverText.textContent = firstPlayer.weapon;
                 letterSquare.appendChild(weaponHoverText);
                 return {
                     weaponHoverText,
@@ -119,7 +120,7 @@ function loadGameScreen (startButton) {
     const beginGame = (player1Name, player2Name, player1Weapon, player2Weapon) => {
         const playerInfoFormHolder = document.getElementById('playerInfoFormHolder');
         
-        const addVersusText = () => {
+        const addVersusText = (() => {
             const container = document.getElementById('container');
             const buttonHolder = document.getElementById('buttonHolder');
             const versusText = document.createElement('h1');
@@ -127,28 +128,25 @@ function loadGameScreen (startButton) {
             versusText.textContent = `${player1Name} vs. ${player2Name}`;
             container.insertAdjacentElement('afterbegin', versusText);
     
-        }
-        addVersusText();
+        })();
         
-        startButton.remove();
-        playerInfoFormHolder.remove();
-        
-        const chooseStartingPlayer = (player1Name, player2Name)  => {
+        const chooseStartingPlayer = (()  => {
             let _playerIndex = Math.round(Math.random());
-            let _playerArray = [player1Name, player2Name];
-            let firstPlayer = _playerArray[_playerIndex];
+            let firstPlayer = getPlayers().players[_playerIndex];
             return {
                 firstPlayer,
             }
-        }
-        let whoGoesFirst = chooseStartingPlayer(player1Name, player2Name).firstPlayer;
-        console.log(whoGoesFirst);
-        const firstPlayerText = document.createElement('h1');
+        })(player1Name, player2Name);
+        const firstPlayer = chooseStartingPlayer.firstPlayer;
+        const firstPlayerText = document.createElement('h2');
         firstPlayerText.id = 'firstPlayerText';
-        firstPlayerText.textContent = `${whoGoesFirst} goes first!`
+        firstPlayerText.textContent = `${chooseStartingPlayer.firstPlayer.name} goes first!`
+        const versusText = document.getElementById('versusText');
+        versusText.insertAdjacentElement('afterend', firstPlayerText);
 
-       
-        gameBoard.buildBoard(player1Name, player2Name, player1Weapon, player2Weapon);
+        startButton.remove();
+        playerInfoFormHolder.remove();
+        gameBoard.buildBoard(player1Name, player2Name, player1Weapon, player2Weapon, firstPlayer);
         
     }
 
@@ -176,37 +174,7 @@ const swapWeapon = (() => {
     }
     
 
-})();
-
-const buildPlayers = () => {
-    const playerInformation = () => {
-        const player1Name = getNames().player1Name;
-        const player2Name = getNames().player1Name;
-        const player1Weapon = getWeapons().player1Weapon;
-        const player2Weapon = getWeapons().player2Weapon;
-        return {
-            player1Name,
-            player2Name,
-            player1Weapon,
-            player2Weapon,
-        }
-        }
-    
-    const players  = [
-        {
-            name: playerInformation.player1Name,
-            weapon: playerInformation.player1Weapon, 
-        },
-        {
-            name: playerInformation.player2Name,
-            weapon: playerInformation.player2Weapon, 
-        }
-    ]
-
-    return {
-        players,
-    }
-} 
+})(); 
 
 const gameLogic = () => {
 
