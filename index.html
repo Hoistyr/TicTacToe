@@ -5,18 +5,47 @@
     </head>
     <body>
         <header>
-
+            <h1 id="gameTitle">Tic Tac Toe</h1>
         </header>
         <div id="container">
             <div id="buttonHolder">
                 <button id="startButton">Start Game</button>
             </div>
 
+            
+            <div id="playerNameFormHolder">
+                
+                <form id = "playerNameForm">
+                    <div id="player1Form" class="playerForm">
+                        <div class="playerFormText">
+                            <p id="player1Text">Player 1 Name:</p>
+                            <input id="player1Name" type="text">
+                            
+                        </div>
+                        <p id="player1Weapon" class="playerWeaponText">Player 1 Weapon:</p>
+                        <h1 class="weapon" id="weaponO">O</h1>
+                        <p class="clickSwap">(click to swap)</p>
+                    </div>
+                    <div id="player2Form" class="playerForm">
+                        <div class="playerFormText">
+                            <p id="player1Text">Player 2 Name:</p>
+                            <input id="player2Name" type="text">
+                            
+                        </div>
+                        <p id="player2Weapon" class="playerWeaponText">Player 2 Weapon:</p>
+                        <h1 class="weapon" id="weaponX">X</h1>
+                        <p class="clickSwap">(click to swap)</p>
+                    </div>
+                    
+                </form>
+                
+            </div>
+            
             <div id="gameHolder">
 
             </div>
         </div>
-        <script 
+        <script src="scripts.js"></script> 
     </body>
 
 </html>

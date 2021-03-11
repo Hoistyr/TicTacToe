@@ -1,6 +1,68 @@
+html {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
 #container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+#startButton {
+    background-color:slategray;
+    border: transparent;
+    height: 80px;
+    width: 200px;
+    font-size: larger;
+    color: white;
+}
+
+#startButton:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+header {
+    display: flex;
+    justify-content: center;
+    font-size: x-large;
+    color: slategray;
+}
+
+#playerNameForm {
+    display: flex;
+}
+
+#player1Text, #player2Text {
+    margin: 2px;
+}
+
+#player1Weapon, #player2Weapon {
+    margin-bottom: 2px;
+}
+
+#playerNameFormHolder {
+    color: slategray;
+    margin-top: 20px;
+}
+
+.playerForm {
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.playerWeaponText {
+    margin-top: 30px;
+}
+
+.weapon {
+    font-size: 100px;
+    margin: 0; 
+}
+
+.weapon:hover {
+    transform: scale(1.10);
+    cursor: pointer;
 }
