@@ -1,30 +1,63 @@
-/*const gameLogic = (() => {
-    const createGameBoard = () => {
-        gameBoard = {
-            boardPiecesObject: boardPieces = () => {
-                let boardPiecesArray = ['topLeft', 'topMid', 'topRight', 'midLeft', 'midMid', 'midRight', 'botLeft', 'botMid', 'botRight'];
-                return boardPiecesArray;
-            },
-        }
-        return gameBoard;
-    }
-    const log = (toLog) => {
-        return console.log(toLog);
-    }
-    return {
-        createGameBoard,
-        log,
-    }
-})();*/
 const getNames = () => {
-    const player1Form = document.getElementById('player1Name');
-    const player2Form = document.getElementById('player2Name');
-    const player1Name = player1Form.value;
-    const player2Name = player2Form.value;
-
+    const _player1Form = document.getElementById('player1Name');
+    const _player2Form = document.getElementById('player2Name');
+    const player1Name = _player1Form.value;
+    const player2Name = _player2Form.value;
+    
     return {
         player1Name,
         player2Name,
+    }
+}
+
+const getWeapons = () => {
+    const player1Weapon = document.getElementById('player1Weapon').nextElementSibling.textContent;
+    const player2Weapon = document.getElementById('player2Weapon').nextElementSibling.textContent;
+    return {
+        player1Weapon,
+        player2Weapon,
+    }
+}
+
+const getPlayers = () => {
+    const playerInformation = (() => {
+        let player1Name = getNames().player1Name;
+        let player2Name = getNames().player2Name;
+        let player1Weapon = getWeapons().player1Weapon;
+        let player2Weapon = getWeapons().player2Weapon;
+        if (player1Name === '' || player2Name === '') {
+            if (player1Name === '') {
+                player1Name = 'Player 1';
+            }
+            
+            if (player2Name === '') {
+                player2Name = 'Player 2';
+            }
+        }
+        return {
+            player1Name,
+            player2Name,
+            player1Weapon,
+            player2Weapon,
+            }
+    })();
+        
+    
+    
+    const players = (() => [
+        {
+            name: playerInformation.player1Name,
+            weapon: playerInformation.player1Weapon, 
+        },
+        {
+            name: playerInformation.player2Name,
+            weapon: playerInformation.player2Weapon, 
+        }
+    ])();
+    
+    return {
+        playerInformation,
+        players,
     }
 }
 
@@ -34,12 +67,92 @@ const startButton = (() => {
     
 })();
 
+const gameBoard = (() => {
+    const _boardPartsArray = ['topLeft', 'topMid', 'topRight', 'midLeft', 'midMid', 'midRight', 'botLeft', 'botMid', 'botRight']
+    const board = {
+        boardParts: _boardPartsArray,
+    }
+    
+    const buildBoard = (player1Name, player2Name, player1Weapon, player2Weapon) => {
+        board.boardParts.forEach((square) => {
+            const boardSquare = document.createElement('div');
+            boardSquare.id = square;
+            boardSquare.classList.add('boardSquare');
+            const squareName = boardSquare.id;
+            
+            const mouseHoverSquare = (player1Weapon, player2Weapon) => {
+                letterSquare = document.getElementById(`${boardSquare.id}`);
+                const weaponHoverText = document.createElement('h2');
+                weaponHoverText.id = 'weaponHoverText';
+                weaponHoverText.textContent = player1Weapon;
+                letterSquare.appendChild(weaponHoverText);
+                return {
+                    weaponHoverText,
+                }
+            }
+
+            const mouseLeaveSquare = () => {
+                let weaponHoverText = document.getElementById('weaponHoverText')
+                weaponHoverText.remove();
+            }
+            
+            boardSquare.addEventListener('mouseenter', mouseHoverSquare.bind(player1Weapon, player2Weapon, squareName));
+            boardSquare.addEventListener('mouseleave', mouseLeaveSquare);
+            
+            //boardSquare.addEventListener('click',)
+            
+            const gameHolder = document.getElementById('gameHolder');
+            gameHolder.appendChild(boardSquare);
+        })     
+    }
+
+
+    return {
+        board,
+        buildBoard,
+    };
+    
+})();
+
 function loadGameScreen (startButton) {
-    if (getNames().player1Name === '' || getNames().player2Name === '') {
-        console.log('missing names');
-    } else {
+    
+    const beginGame = (player1Name, player2Name, player1Weapon, player2Weapon) => {
+        const playerInfoFormHolder = document.getElementById('playerInfoFormHolder');
+        
+        const addVersusText = () => {
+            const container = document.getElementById('container');
+            const buttonHolder = document.getElementById('buttonHolder');
+            const versusText = document.createElement('h1');
+            versusText.id = ('versusText');
+            versusText.textContent = `${player1Name} vs. ${player2Name}`;
+            container.insertAdjacentElement('afterbegin', versusText);
+    
+        }
+        addVersusText();
+        
         startButton.remove();
-    } 
+        playerInfoFormHolder.remove();
+        
+        const chooseStartingPlayer = (player1Name, player2Name)  => {
+            let _playerIndex = Math.round(Math.random());
+            let _playerArray = [player1Name, player2Name];
+            let firstPlayer = _playerArray[_playerIndex];
+            return {
+                firstPlayer,
+            }
+        }
+        let whoGoesFirst = chooseStartingPlayer(player1Name, player2Name).firstPlayer;
+        console.log(whoGoesFirst);
+        const firstPlayerText = document.createElement('h1');
+        firstPlayerText.id = 'firstPlayerText';
+        firstPlayerText.textContent = `${whoGoesFirst} goes first!`
+
+       
+        gameBoard.buildBoard(player1Name, player2Name, player1Weapon, player2Weapon);
+        
+    }
+
+    beginGame(getPlayers().players[0].name, getPlayers().players[1].name, getPlayers().players[0].weapon, getPlayers().players[1].weapon);
 }
 
 
@@ -65,22 +178,36 @@ const swapWeapon = (() => {
 
 })();
 
-
-
-const gameBoard = (() => {
-        const _boardPartsArray = ['topLeft', 'topMid', 'topRight', 'midLeft', 'midMid', 'midRight', 'botLeft', 'botMid', 'botRight']
-        const board = {
-            boardParts: _boardPartsArray,
-        }
-        console.log('hello');
+const buildPlayers = () => {
+    const playerInformation = () => {
+        const player1Name = getNames().player1Name;
+        const player2Name = getNames().player1Name;
+        const player1Weapon = getWeapons().player1Weapon;
+        const player2Weapon = getWeapons().player2Weapon;
         return {
-            board,
-        };
-        
-})();
+            player1Name,
+            player2Name,
+            player1Weapon,
+            player2Weapon,
+        }
+        }
+    
+    const players  = [
+        {
+            name: playerInformation.player1Name,
+            weapon: playerInformation.player1Weapon, 
+        },
+        {
+            name: playerInformation.player2Name,
+            weapon: playerInformation.player2Weapon, 
+        }
+    ]
 
-console.log(gameBoard.board);
-const newPlayer = (name, weapon) => {
+    return {
+        players,
+    }
+} 
 
-};
+const gameLogic = () => {
 
+}
