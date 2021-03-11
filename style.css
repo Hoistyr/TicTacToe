@@ -29,6 +29,10 @@ header {
     color: slategray;
 }
 
+#gameTitle {
+    margin-bottom: 10px;
+}
+
 #playerNameForm {
     display: flex;
 }
@@ -41,7 +45,7 @@ header {
     margin-bottom: 2px;
 }
 
-#playerNameFormHolder {
+#playerInfoFormHolder {
     color: slategray;
     margin-top: 20px;
 }
@@ -65,4 +69,32 @@ header {
 .weapon:hover {
     transform: scale(1.10);
     cursor: pointer;
+}
+
+#gameHolder {
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: repeat(3, auto);
+}
+.boardSquare {
+    height: 150px;
+    width: 150px;
+    background-color: slategray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.178);
+}
+
+.boardSquare:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+#weaponHoverText {
+    font-size: 7rem;
+}
+
+#versusText {
+    margin-top: 0px;
 }
