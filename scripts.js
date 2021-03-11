@@ -27,19 +27,15 @@ const getNames = () => {
         player2Name,
     }
 }
-console.log(getNames());
-console.log(getNames.player2Name);
+
 const startButton = (() => {
     const startButton = document.getElementById('startButton');
     startButton.addEventListener('click', loadGameScreen.bind(this, startButton));
     
-    
-    
 })();
 
 function loadGameScreen (startButton) {
-    console.log(getNames().player1Name + getNames().player2Name);
-    if (getNames.player1Name === '' || getNames.player2Name === '') {
+    if (getNames().player1Name === '' || getNames().player2Name === '') {
         console.log('missing names');
     } else {
         startButton.remove();
@@ -84,7 +80,7 @@ const gameBoard = (() => {
 })();
 
 console.log(gameBoard.board);
-const newPlayer = (name) => {
+const newPlayer = (name, weapon) => {
 
-}
+};
 
