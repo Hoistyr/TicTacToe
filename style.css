@@ -107,8 +107,10 @@ header {
 
 #versusText {
     margin-top: 0px;
+    margin-bottom: 50px;
 }
 
 #firstPlayerText {
-    margin-top: 0px;
+    position: absolute;
+    top: 140px;
 }

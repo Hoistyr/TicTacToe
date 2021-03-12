@@ -72,6 +72,10 @@ const gameBoard = (() => {
     const board = {
         boardParts: _boardPartsArray,
     }
+    let logicBoard = {};
+    board.boardParts.forEach((square) => {
+        logicBoard[square] = '';
+    })
     
     const buildBoard = (player1Name, player2Name, player1Weapon, player2Weapon, players, currentIndex) => {
         board.boardParts.forEach((square) => {
@@ -110,7 +114,7 @@ const gameBoard = (() => {
                 const displayMoveText = document.createElement('h2');
                 displayMoveText.id = (`dMT${boardSquare.id}`);
                 displayMoveText.classList.add('displayMoveText');
-                displayMoveText.textContent = players[currentIndex].weapon;;
+                displayMoveText.textContent = players[currentIndex].weapon;
                 
                 if (!letterSquare.classList.contains('containsMove')) {
                     letterSquare.classList.add('containsMove');
@@ -122,6 +126,14 @@ const gameBoard = (() => {
                         currentIndex = 1;
                     }
                 }
+                console.log(players, currentIndex);
+                let board = gameBoard.board.boardParts;
+                console.log(board);
+                let logicBoard = {};
+                board.forEach((square) => {
+                    logicBoard[square] = '';
+                })
+                gameLogic(players, currentIndex, squareName, logicBoard);
                 return {
                     displayMoveText,
                 }
@@ -139,6 +151,7 @@ const gameBoard = (() => {
     return {
         board,
         buildBoard,
+        logicBoard,
     };
     
 })();
@@ -146,7 +159,7 @@ const gameBoard = (() => {
 function loadGameScreen (startButton) {
     
     const beginGame = (player1Name, player2Name, player1Weapon, player2Weapon) => {
-        const playerInfoFormHolder = document.getElementById('playerInfoFormHolder');
+        const playerNameForm = document.getElementById('playerNameForm');
         
         const addVersusText = (() => {
             const container = document.getElementById('container');
@@ -177,13 +190,12 @@ function loadGameScreen (startButton) {
         versusText.insertAdjacentElement('afterend', firstPlayerText);
 
         startButton.remove();
-        playerInfoFormHolder.remove();
+        playerNameForm.remove();
         gameBoard.buildBoard(player1Name, player2Name, player1Weapon, player2Weapon, players, currentIndex);
         
     }
 
     beginGame(getPlayers().players[0].name, getPlayers().players[1].name, getPlayers().players[0].weapon, getPlayers().players[1].weapon);
-    gameLogic(gameBoard.board);
 }
 
 
@@ -209,6 +221,88 @@ const swapWeapon = (() => {
 
 })(); 
 
-const gameLogic = () => {
- 
+const gameLogic = (players, currentIndex, square) => {
+    logicBoard = gameBoard.logicBoard;
+    if (currentIndex === 1) {
+        currentIndex = 0;
+    } else if (currentIndex === 0) {
+        currentIndex = 1;
+    }
+    let currentWeapon = players[currentIndex].weapon;
+    console.log(currentWeapon);
+    logicBoard[square] = currentWeapon;
+    console.log(logicBoard);
+    if (square === 'topLeft') {;
+        if (logicBoard.topMid === currentWeapon 
+            && logicBoard.topRight === currentWeapon){
+            console.log(players[currentIndex].name + ' wins');  
+            }
+        } else if (logicBoard.midLeft = currentWeapon
+            && logicBoard.botLeft === currentWeapon){
+            console.log(players[currentIndex].name + ' wins');
+    } else if (square === 'topMid') {
+        if (logicBoard.topLeft === currentWeapon 
+            && logicBoard.topRight === currentWeapon){
+            console.log(players[currentIndex].name + ' wins');  
+            }
+        } else if (logicBoard.midMid = currentWeapon
+            && logicBoard.botMid === currentWeapon){
+            console.log(players[currentIndex].name + ' wins');
+    } else if (square === 'topRight') {
+        if (logicBoard.topMid === currentWeapon 
+            && logicBoard.topLeft === currentWeapon){
+            console.log(players[currentIndex].name + ' wins');  
+            }
+        } else if (logicBoard.midRight = currentWeapon
+            && logicBoard.botRight === currentWeapon){
+            console.log(players[currentIndex].name + ' wins');
+    } else if (square === 'midLeft') {
+        if (logicBoard.topLeft === currentWeapon 
+            && logicBoard.botLeft === currentWeapon){
+            console.log(players[currentIndex].name + ' wins');  
+            }
+        } else if (logicBoard.midMid = currentWeapon
+            && logicBoard.midRight === currentWeapon){
+            console.log(players[currentIndex].name + ' wins');
+    } else if (square === 'midMid') {
+        if (logicBoard.topMid === currentWeapon 
+            && logicBoard.botMid === currentWeapon){
+            console.log(players[currentIndex].name + ' wins');  
+            }
+        } else if (logicBoard.midLeft = currentWeapon
+            && logicBoard.midRight === currentWeapon){
+            console.log(players[currentIndex].name + ' wins');
+    } else if (square === 'midRight') {
+        if (logicBoard.topMid === currentWeapon 
+            && logicBoard.botRight === currentWeapon){
+            console.log(players[currentIndex].name + ' wins');  
+            }
+        } else if (logicBoard.midLeft = currentWeapon
+            && logicBoard.midMid === currentWeapon){
+            console.log(players[currentIndex].name + ' wins');
+    } else if (square === 'botLeft') {
+        if (logicBoard.topLeft === currentWeapon 
+            && logicBoard.midLeft === currentWeapon){
+            console.log(players[currentIndex].name + ' wins');  
+            }
+        } else if (logicBoard.midLeft = currentWeapon
+            && logicBoard.midRight === currentWeapon){
+            console.log(players[currentIndex].name + ' wins');
+    } else if (square === 'botMid') {
+        if (logicBoard.topMid === currentWeapon 
+            && logicBoard.midMid === currentWeapon){
+            console.log(players[currentIndex].name + ' wins');  
+            }
+        } else if (logicBoard.botLeft = currentWeapon
+            && logicBoard.botRight === currentWeapon){
+            console.log(players[currentIndex].name + ' wins');
+    } else if (square === 'botRight') {
+        if (logicBoard.midRight === currentWeapon 
+            && logicBoard.topRight === currentWeapon){
+            console.log(players[currentIndex].name + ' wins');  
+            }
+        } else if (logicBoard.botMid = currentWeapon
+            && logicBoard.botLeft === currentWeapon){
+            console.log(players[currentIndex].name + ' wins');
+    }
 }
