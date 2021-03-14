@@ -90,6 +90,7 @@ header {
 
 .boardSquare:hover {
     cursor: pointer;
+    color: rgba(112, 128, 144, 0.521);
 }
 
 .containsMove:hover {

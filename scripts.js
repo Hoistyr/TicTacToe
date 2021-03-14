@@ -127,13 +127,8 @@ const gameBoard = (() => {
                     }
                 }
                 console.log(players, currentIndex);
-                let board = gameBoard.board.boardParts;
-                console.log(board);
-                let logicBoard = {};
-                board.forEach((square) => {
-                    logicBoard[square] = '';
-                })
-                gameLogic(players, currentIndex, squareName, logicBoard);
+                
+                gameLogic(players, currentIndex, squareName);
                 return {
                     displayMoveText,
                 }
@@ -229,6 +224,7 @@ const gameLogic = (players, currentIndex, square) => {
         currentIndex = 1;
     }
     let currentWeapon = players[currentIndex].weapon;
+    console.log(square);
     console.log(currentWeapon);
     logicBoard[square] = currentWeapon;
     console.log(logicBoard);
@@ -238,7 +234,7 @@ const gameLogic = (players, currentIndex, square) => {
             console.log(players[currentIndex].name + ' wins');
             winLines().makeTopHorizontalWinLine(); 
             }
-        } else if (logicBoard.midLeft = currentWeapon
+        } else if (logicBoard.midLeft === currentWeapon
             && logicBoard.botLeft === currentWeapon){
             console.log(players[currentIndex].name + ' wins');
             winLines().makeLeftWinLine(); 
@@ -248,7 +244,7 @@ const gameLogic = (players, currentIndex, square) => {
             console.log(players[currentIndex].name + ' wins');
             winLines().makeTopHorizontalWinLine();   
             }
-        } else if (logicBoard.midMid = currentWeapon
+        } else if (logicBoard.midMid === currentWeapon
             && logicBoard.botMid === currentWeapon){
             console.log(players[currentIndex].name + ' wins');
             winLines().makeWinLine(); 
@@ -258,7 +254,7 @@ const gameLogic = (players, currentIndex, square) => {
             console.log(players[currentIndex].name + ' wins'); 
             winLines().makeTopHorizontalWinLine();  
             }
-        } else if (logicBoard.midRight = currentWeapon
+        } else if (logicBoard.midRight === currentWeapon
             && logicBoard.botRight === currentWeapon){
             console.log(players[currentIndex].name + ' wins');
             winLines().makeRightWinLine(); 
@@ -268,7 +264,7 @@ const gameLogic = (players, currentIndex, square) => {
             console.log(players[currentIndex].name + ' wins');
             winLines().makeLeftWinLine();   
             }
-        } else if (logicBoard.midMid = currentWeapon
+        } else if (logicBoard.midMid === currentWeapon
             && logicBoard.midRight === currentWeapon){
             console.log(players[currentIndex].name + ' wins');
             winLines().makeHorizontalWinLine(); 
@@ -278,15 +274,15 @@ const gameLogic = (players, currentIndex, square) => {
             console.log(players[currentIndex].name + ' wins'); 
             winLines().makeWinLine();  
             }
-        } else if (logicBoard.midLeft = currentWeapon
+        } else if (logicBoard.midLeft === currentWeapon
             && logicBoard.midRight === currentWeapon){
             console.log(players[currentIndex].name + ' wins');
             winLines().makeHorizontalWinLine(); 
-        } else if (logicBoard.topLeft = currentWeapon
+        } else if (logicBoard.topLeft === currentWeapon
             && logicBoard.botRight === currentWeapon){
             console.log(players[currentIndex].name + ' wins');
             winLines().makeLeftAngledWinLine(); 
-        } else if (logicBoard.botLeft = currentWeapon
+        } else if (logicBoard.botLeft === currentWeapon
             && logicBoard.topRight === currentWeapon){
             console.log(players[currentIndex].name + ' wins');
             winLines().makeRightAngledWinLine(); 
@@ -296,7 +292,7 @@ const gameLogic = (players, currentIndex, square) => {
             console.log(players[currentIndex].name + ' wins');
             winLines().makeRightWinLine();   
             }
-        } else if (logicBoard.midLeft = currentWeapon
+        } else if (logicBoard.midLeft === currentWeapon
             && logicBoard.midMid === currentWeapon){
             console.log(players[currentIndex].name + ' wins');
             winLines().makeHorizontalWinLine(); 
@@ -306,7 +302,7 @@ const gameLogic = (players, currentIndex, square) => {
             console.log(players[currentIndex].name + ' wins');
             winLines().makeLeftWinLine();   
             }
-        } else if (logicBoard.botMid = currentWeapon
+        } else if (logicBoard.botMid === currentWeapon
             && logicBoard.botRight === currentWeapon){
             console.log(players[currentIndex].name + ' wins');
             winLines().makeBottomHorizontalWinLine(); 
@@ -316,7 +312,7 @@ const gameLogic = (players, currentIndex, square) => {
             console.log(players[currentIndex].name + ' wins');
             winLines().makeWinLine();   
             }
-        } else if (logicBoard.botLeft = currentWeapon
+        } else if (logicBoard.botLeft === currentWeapon
             && logicBoard.botRight === currentWeapon){
             console.log(players[currentIndex].name + ' wins');
             winLines().makeBottomHorizontalWinLine(); 
@@ -326,7 +322,7 @@ const gameLogic = (players, currentIndex, square) => {
             console.log(players[currentIndex].name + ' wins');
             winLines().makeRightWinLine();   
             }
-        } else if (logicBoard.botMid = currentWeapon
+        } else if (logicBoard.botMid === currentWeapon
             && logicBoard.botLeft === currentWeapon){
             console.log(players[currentIndex].name + ' wins');
             winLines().makeBottomHorizontalWinLine(); 
