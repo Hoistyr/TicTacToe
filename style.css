@@ -85,7 +85,7 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    color: slategray;
+    color: #708090;
 }
 
 .boardSquare:hover {
@@ -110,6 +110,20 @@ header {
 #versusText {
     margin-top: 0px;
     margin-bottom: 50px;
+    display: flex;
+    padding: 0px;
+}
+
+#player1Name {
+    color: #787090;
+}
+
+#player2Name {
+    color: #709080;
+}
+#vs {
+    margin-left: 20px;
+    margin-right: 20px;
 }
 
 #firstPlayerText {
