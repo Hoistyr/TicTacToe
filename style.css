@@ -98,6 +98,8 @@ header {
     cursor:default;
 }
 
+
+
 .weaponHoverText {
     font-size: 7rem;
 }
@@ -109,16 +111,23 @@ header {
 
 #versusText {
     margin-top: 0px;
-    margin-bottom: 50px;
+    margin-bottom: 0px;
     display: flex;
     padding: 0px;
 }
 
-#player1Name {
+#versus {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    display: flex;
+    padding: 0px;
+}
+
+#player1VsName {
     color: #787090;
 }
 
-#player2Name {
+#player2VsName {
     color: #709080;
 }
 #vs {
@@ -128,7 +137,7 @@ header {
 
 #firstPlayerText {
     position: absolute;
-    top: 140px;
+    top: 170px;
 }
 
 .winLine {
@@ -171,4 +180,12 @@ header {
 .leftAngledWL {
     transform: rotate(-45deg);
     height: 650px;
+}
+
+.purpleWeapon {
+    color: #787090;
+}
+
+.greenWeapon {
+    color: #709080;
 }

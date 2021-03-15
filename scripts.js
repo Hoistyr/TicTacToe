@@ -113,7 +113,13 @@ const gameBoard = (() => {
                 letterSquare = document.getElementById(`${boardSquare.id}`);
                 const displayMoveText = document.createElement('h2');
                 displayMoveText.id = (`dMT${boardSquare.id}`);
-                displayMoveText.classList.add('displayMoveText');
+                
+                if (currentIndex === 0) {
+                    weaponClass = 'purpleWeapon';
+                } else if (currentIndex === 1) {
+                    weaponClass = 'greenWeapon';
+                }
+                displayMoveText.classList.add('displayMoveText', `${weaponClass}`);
                 displayMoveText.textContent = players[currentIndex].weapon;
                 
                 if (!letterSquare.classList.contains('containsMove')) {
@@ -127,6 +133,10 @@ const gameBoard = (() => {
                     }
                 }
                 console.log(players, currentIndex);
+                const firstPlayerText = document.getElementById('firstPlayerText');
+                if (firstPlayerText) {
+                    firstPlayerText.remove();
+                }
                 
                 gameLogic(players, currentIndex, squareName);
                 return {
@@ -161,11 +171,12 @@ function loadGameScreen (startButton) {
             const buttonHolder = document.getElementById('buttonHolder');
             const versusText = document.createElement('div');
             versusText.id = ('versusText');
-            versusText.innerHTML = `<h1 id='versusText'><p id='player1Name'>${player1Name}<p><p id='vs'>vs.<p><p id='player2Name'>${player2Name}</p>`;
+            versusText.innerHTML = `<h1 id='versus'><p id='player1VsName'>${player1Name}<p><p id='vs'>vs.<p><p id='player2VsName'>${player2Name}</p>`;
             container.insertAdjacentElement('afterbegin', versusText);
     
         })();
         const players = getPlayers().players;
+        console.log(players);
         const chooseStartingPlayer = (()  => {
             let currentIndex = Math.round(Math.random());
             let currentPlayer = players[currentIndex];
@@ -178,6 +189,7 @@ function loadGameScreen (startButton) {
 
         const currentPlayer = chooseStartingPlayer.currentPlayer;
         const currentIndex = chooseStartingPlayer.currentIndex;
+        console.log(chooseStartingPlayer.currentPlayer.name);
         const firstPlayerText = document.createElement('h2');
         firstPlayerText.id = 'firstPlayerText';
         firstPlayerText.textContent = `${chooseStartingPlayer.currentPlayer.name} goes first!`
