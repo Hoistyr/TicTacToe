@@ -8,7 +8,7 @@ html {
     align-items: center;
 }
 
-#startButton {
+.button {
     background-color:slategray;
     border: transparent;
     height: 80px;
@@ -17,7 +17,7 @@ html {
     color: white;
 }
 
-#startButton:hover {
+.button:hover {
     transform: scale(1.05);
     cursor: pointer;
 }
@@ -125,19 +125,23 @@ header {
 
 #player1VsName {
     color: #787090;
+    margin: 0px;
 }
 
 #player2VsName {
     color: #709080;
+    margin: 0px;
 }
 #vs {
     margin-left: 20px;
     margin-right: 20px;
+    margin-top: 0px;
+    margin-bottom: 0px;
 }
 
 #firstPlayerText {
     position: absolute;
-    top: 170px;
+    top: 130px;
 }
 
 .winLine {
@@ -188,4 +192,21 @@ header {
 
 .greenWeapon {
     color: #709080;
+}
+
+#playAgainButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    background-color:rgb(82, 95, 107);
+    margin-top: 20px
+}
+#newGameButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    background-color:rgb(82, 95, 107);
+    margin-top: 5px
 }
