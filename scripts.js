@@ -43,7 +43,6 @@ const getPlayers = () => {
             }
     })();
         
-    
     //Adds the player names and player weapons to an object and then adds those objects to an array called players
     const players = (() => [
         {
@@ -67,11 +66,12 @@ const gameBoard = (() => {
         boardParts: _boardPartsArray,
     }
     
+    //Builds the array of objects that correlate to each board square
     let logicBoard = {};
     board.boardParts.forEach((square) => {
         logicBoard[square] = '';
     })
-    
+
     //Adds a shadow of the letter to be added when the mouse hovers over a square
     const mouseHoverSquare = (boardSquare) => {
         letterSquare = document.getElementById(`${boardSquare.id}`);
@@ -121,6 +121,8 @@ const gameBoard = (() => {
             mouseLeaveSquare(boardSquare);
             changeIndex();
             const squareName = boardSquare.id;
+            
+            //Sends the click data to gameLogic where it will be determined if it was a winning move
             gameLogic(players, currentIndex, squareName);
         }
         
@@ -132,51 +134,43 @@ const gameBoard = (() => {
     }
     
     const buildBoard = () => {
+        //Loops through each square and adds information and eventListeners
         board.boardParts.forEach((square) => {
             //Board square HMTL information
             const boardSquare = document.createElement('div');
             boardSquare.id = square;
             boardSquare.classList.add('boardSquare');
             
-            
-            
-            const displayMoveData = displayMove.bind(this, boardSquare);
-            gameStorage.displayMoveData = displayMoveData;
-            
             //Adds eventListeners to the board squares
             boardSquare.addEventListener('mouseenter', mouseHoverSquare.bind(this, boardSquare));
             boardSquare.addEventListener('mouseleave', mouseLeaveSquare.bind(this, boardSquare));
-            boardSquare.addEventListener('click', gameStorage.displayMoveData, true);
-            
+            boardSquare.addEventListener('click', displayMove.bind(this, boardSquare));
             
             //Appends the squares to the gameHolder div
             const gameHolder = document.getElementById('gameHolder');
             gameHolder.appendChild(boardSquare);   
-            
         })  
     }
-
-
     return {
         board,
         buildBoard,
         logicBoard,
-    };
-    
+    }
 })();
 
 const initGame = () => {
-    console.log('in init');
     
+    //Checks if the game has been run before and gets the player names from the form if it hasn't
     const checkGameState = (() => {
         const playAgainButton = document.getElementById('playAgainButton');
-        if (playAgainButton === null) {
-            console.log('no play again');
+        if (!gameStorage.gamePlayed === true) {
+            console.log('fresh game');
             //Gets the players array and adds it to game storage
             const players = getPlayers().players;
             gameStorage.players = players;
         }
     })();
+    
     const players = gameStorage.players;
     
     const beginNewGame = (player1Name, player2Name) => {
@@ -223,28 +217,71 @@ const initGame = () => {
         gameBoard.buildBoard(players, currentIndex);
         
     }
+
+    const continueNewGame = (player1Name, player2Name) => {
+        
+        console.log(players);
+        //Gets the names of the players and updates the display with that information
+        const addVersusText = (() => {
+            const container = document.getElementById('container');
+            const buttonHolder = document.getElementById('buttonHolder');
+            const versusText = document.createElement('div');
+            versusText.id = ('versusText');
+            versusText.innerHTML = `<h1 id='versus'><p id='player1VsName'>${player1Name}<p><p id='vs'>vs.<p><p id='player2VsName'>${player2Name}</p>`;
+            container.insertAdjacentElement('afterbegin', versusText);
     
-    const playAgainButton = document.getElementById('playAgainButton');
-    if (playAgainButton === null) {
-        beginNewGame(gameStorage.players[0].name, gameStorage.players[1].name);
-    } else {
+        })();
+        
+        //Randomly selects a player to begin the game
+        const chooseStartingPlayer = (()  => {
+            let currentIndex = Math.round(Math.random());
+            let currentPlayer = players[currentIndex];
+            
+            return {
+                currentIndex,
+                currentPlayer,
+            }
+        })();
+
+        //Updates the gameStorage index with the starting index
+        let currentIndex = chooseStartingPlayer.currentIndex;
+        gameStorage.currentIndex = currentIndex;
+        
+        //Gets the name of the starting player and updates the page with that information
+        const firstPlayerText = document.createElement('h2');
+        firstPlayerText.id = 'firstPlayerText';
+        firstPlayerText.textContent = `${chooseStartingPlayer.currentPlayer.name} goes first!`
+        const versusText = document.getElementById('versusText');
+        versusText.insertAdjacentElement('afterend', firstPlayerText);
+        
+        //Builds the game board
+        gameBoard.buildBoard(players, currentIndex);
+        
+    }
+    
+    //Starts the games with different functions depending upon whether the game has been run before
+    if (gameStorage.gamePlayed === true) {
         console.log('next time round');
         continueNewGame(gameStorage.players[0].name, gameStorage.players[1].name)
+    } else {
+        beginNewGame(gameStorage.players[0].name, gameStorage.players[1].name);
     }
     
 }
 
+//Adds an event listener to the startButton
 const startButton = (() => {
     const startButton = document.getElementById('startButton');
     startButton.addEventListener('click', initGame);
     
 })();
 
-const gameStorage = ((players, currentIndex, displayMoveData) => {
+//Acts as memory for the game, is carried between continued games, reset on new game
+const gameStorage = ((players, currentIndex, gamePlayed) => {
     return {
         players,
         currentIndex,
-        displayMoveData,
+        gamePlayed,
     }
 })();
 
@@ -275,21 +312,13 @@ const swapWeapon = (() => {
         weaponO.id = 'weaponX'
         weaponX.id = 'weaponO'
     }
-    return {
-        clickChange
-    }
-    
-
 })(); 
 
 //Determines if there is a winner
 const gameLogic = (players, currentIndex, square) => {
     logicBoard = gameBoard.logicBoard;
     let currentWeapon = players[currentIndex].weapon;
-    console.log(square);
-    console.log(currentWeapon);
     logicBoard[square] = currentWeapon;
-    console.log(logicBoard);
     if (square === 'topLeft') {
         if (logicBoard.topMid === currentWeapon 
         && logicBoard.topRight === currentWeapon){
@@ -483,6 +512,12 @@ const checkBoardFull = () => {
     return true;
 }
 
+const resetBoard = () => {
+    for (square in gameBoard.logicBoard) {
+        gameBoard.logicBoard[square] = '';
+    }
+}
+
 const gameOver = (result) => {
     if (result !== 'tie') {
         //Swaps the index back to the winning player
@@ -510,6 +545,8 @@ const gameOver = (result) => {
             square.classList.add('containsMove');
         }
     }
+    const runOnce = true;
+    gameStorage.gamePlayed = runOnce;
 
     const endGameButtonHolder = document.createElement('div');
     endGameButtonHolder.id = 'endGameButtonHolder';
@@ -531,18 +568,93 @@ const gameOver = (result) => {
 
 }
 
+const removeChildNodes = (parent) => {
+    while(parent.firstChild)  {
+        parent.removeChild(parent.lastChild);
+    }
+}
+
+
 const continueGame = () => {
-    const gameHolder = document.getElementById('gameHolder')
-    gameHolder.remove();
+    //Gets the gameHolder element and removes the old board
+    const gameHolder = document.getElementById('gameHolder');
+    removeChildNodes(gameHolder);
+    
     const endGameButtonHolder = document.getElementById('endGameButtonHolder');
     endGameButtonHolder.remove();
     const versusText = document.getElementById('versusText');
     versusText.remove();
+    resetBoard();
     initGame();
 }
 
 const newGame = () => {
     
+    //Resets the page to the initial state
+    const container = document.getElementById('container');
+    removeChildNodes(container);
+    container.innerHTML =  `<div id="playerInfoFormHolder">
+    <form id = "playerNameForm">
+        <div id="player1Form" class="playerForm">
+            <div class="playerFormText">
+                <p id="player1Text">Player 1 Name:</p>
+                <input id="player1Name" type="text">
+                
+            </div>
+            <p id="player1Weapon" class="playerWeaponText">Player 1 Weapon:</p>
+            <h1 class="weapon purpleWeapon" id="weaponO">O</h1>
+            <p class="clickSwap">(click to swap)</p>
+        </div>
+        <div id="player2Form" class="playerForm">
+            <div class="playerFormText">
+                <p id="player1Text">Player 2 Name:</p>
+                <input id="player2Name" type="text">
+                
+            </div>
+            <p id="player2Weapon" class="playerWeaponText">Player 2 Weapon:</p>
+            <h1 class="weapon greenWeapon" id="weaponX">X</h1>
+            <p class="clickSwap">(click to swap)</p>
+        </div>
+        
+    </form>
+    
+    </div>
+    <div id="buttonHolder">
+        <button id="startButton" class="button">Start Game</button>
+    </div>
+    <div id="gameHolder">
+
+    </div>`
+    
+    //Resets gameStorage and the logicBoard
+    gameStorage.players = null;
+    gameStorage.currentIndex = null;
+    gameStorage.gamePlayed = null;
+    resetBoard();
+
+    //Adds an event listener to the new startButton
+    const startButton = (() => {
+        const startButton = document.getElementById('startButton');
+        startButton.addEventListener('click', initGame);
+        
+    })();
+
+    const swapWeapon = (() => {
+        const weapons = document.getElementsByClassName('weapon');
+        for(weapon of weapons){
+            weapon.addEventListener('click', clickChange);
+        }
+        function clickChange () {
+            const weaponO = document.getElementById('weaponO');
+            const weaponX = document.getElementById('weaponX');
+            const x = 'X';
+            const o = 'O';
+            weaponO.textContent = x;
+            weaponX.textContent = o;
+            weaponO.id = 'weaponX'
+            weaponX.id = 'weaponO'
+        }
+    })(); 
 }
 
 const winLines = (() => {
