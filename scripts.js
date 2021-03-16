@@ -159,12 +159,10 @@ const gameBoard = (() => {
 })();
 
 const initGame = () => {
-    
     //Checks if the game has been run before and gets the player names from the form if it hasn't
     const checkGameState = (() => {
         const playAgainButton = document.getElementById('playAgainButton');
         if (!gameStorage.gamePlayed === true) {
-            console.log('fresh game');
             //Gets the players array and adds it to game storage
             const players = getPlayers().players;
             gameStorage.players = players;
@@ -219,8 +217,6 @@ const initGame = () => {
     }
 
     const continueNewGame = (player1Name, player2Name) => {
-        
-        console.log(players);
         //Gets the names of the players and updates the display with that information
         const addVersusText = (() => {
             const container = document.getElementById('container');
@@ -261,7 +257,6 @@ const initGame = () => {
     
     //Starts the games with different functions depending upon whether the game has been run before
     if (gameStorage.gamePlayed === true) {
-        console.log('next time round');
         continueNewGame(gameStorage.players[0].name, gameStorage.players[1].name)
     } else {
         beginNewGame(gameStorage.players[0].name, gameStorage.players[1].name);
@@ -322,20 +317,14 @@ const gameLogic = (players, currentIndex, square) => {
     if (square === 'topLeft') {
         if (logicBoard.topMid === currentWeapon 
         && logicBoard.topRight === currentWeapon){
-            console.log('topLeft 1,2,3');
-            console.log(players[currentIndex].name + ' wins');
             gameOver(players[currentIndex].name);
             winLines.makeTopHorizontalWinLine();
         } else if (logicBoard.midLeft === currentWeapon
         && logicBoard.botLeft === currentWeapon){
-            console.log('topLeft 1,4,7');
-            console.log(players[currentIndex].name + ' wins');
             gameOver(players[currentIndex].name);
             winLines.makeLeftWinLine();
         } else if (logicBoard.midMid === currentWeapon
         && logicBoard.botRight === currentWeapon) {
-            console.log('topLeft 1,5,9');
-            console.log(players[currentIndex].name + ' wins');
             gameOver(players[currentIndex].name);
             winLines.makeLeftAngledWinLine();
         } else if (checkBoardFull() === true) {
@@ -344,14 +333,10 @@ const gameLogic = (players, currentIndex, square) => {
     } else if (square === 'topMid') {
         if (logicBoard.topLeft === currentWeapon 
         && logicBoard.topRight === currentWeapon){
-            console.log('topMid 1,2,3');
-            console.log(players[currentIndex].name + ' wins');
             gameOver(players[currentIndex].name);
             winLines.makeTopHorizontalWinLine();
         } else if (logicBoard.midMid === currentWeapon
         && logicBoard.botMid === currentWeapon){
-            console.log('topMid 2,5,8');
-            console.log(players[currentIndex].name + ' wins');
             gameOver(players[currentIndex].name);
             winLines.makeWinLine();
         } else if (checkBoardFull() === true) {
@@ -360,20 +345,14 @@ const gameLogic = (players, currentIndex, square) => {
     } else if (square === 'topRight') {
         if (logicBoard.topMid === currentWeapon 
         && logicBoard.topLeft === currentWeapon){
-            console.log('topRight 1,2,3');
-            console.log(players[currentIndex].name + ' wins');
             gameOver(players[currentIndex].name); 
             winLines.makeTopHorizontalWinLine();
         } else if (logicBoard.midRight === currentWeapon
         && logicBoard.botRight === currentWeapon){
-            console.log('topRight 3,6,9');
-            console.log(players[currentIndex].name + ' wins');
             gameOver(players[currentIndex].name);
             winLines.makeRightWinLine();
         } else if (logicBoard.midMid === currentWeapon 
         && logicBoard.botLeft === currentWeapon) {
-            console.log('topRight 3,5,7');
-            console.log(players[currentIndex].name + ' wins');
             gameOver(players[currentIndex].name);
             winLines.makeRightAngledWinLine();
         } else if (checkBoardFull() === true) {
@@ -382,14 +361,10 @@ const gameLogic = (players, currentIndex, square) => {
     } else if (square === 'midLeft') {
         if (logicBoard.topLeft === currentWeapon 
         && logicBoard.botLeft === currentWeapon){
-            console.log('midLeft 1,4,7');
-            console.log(players[currentIndex].name + ' wins');
             gameOver(players[currentIndex].name);
             winLines.makeLeftWinLine();
         } else if (logicBoard.midMid === currentWeapon
         && logicBoard.midRight === currentWeapon){
-            console.log('midLeft 4,5,6');
-            console.log(players[currentIndex].name + ' wins');
             gameOver(players[currentIndex].name);
             winLines.makeHorizontalWinLine();
         } else if (checkBoardFull() === true) {
@@ -398,26 +373,18 @@ const gameLogic = (players, currentIndex, square) => {
     } else if (square === 'midMid') {
         if (logicBoard.topMid === currentWeapon 
         && logicBoard.botMid === currentWeapon){
-            console.log('midMid 2,5,8');
-            console.log(players[currentIndex].name + ' wins');
             gameOver(players[currentIndex].name); 
             winLines.makeWinLine();
         } else if (logicBoard.midLeft === currentWeapon
         && logicBoard.midRight === currentWeapon){
-            console.log('midMid 4,5,6');
-            console.log(players[currentIndex].name + ' wins');
             gameOver(players[currentIndex].name);
             winLines.makeHorizontalWinLine(); 
         } else if (logicBoard.topLeft === currentWeapon
         && logicBoard.botRight === currentWeapon){
-            console.log('midMid 1,5,9');
-            console.log(players[currentIndex].name + ' wins');
             gameOver(players[currentIndex].name);
             winLines.makeLeftAngledWinLine(); 
         } else if (logicBoard.botLeft === currentWeapon
         && logicBoard.topRight === currentWeapon){
-            console.log('midMid 3,5,7');
-            console.log(players[currentIndex].name + ' wins');
             gameOver(players[currentIndex].name);
             winLines.makeRightAngledWinLine(); 
         }  else if (checkBoardFull() === true) {
@@ -426,14 +393,10 @@ const gameLogic = (players, currentIndex, square) => {
     }  else if (square === 'midRight') {
         if (logicBoard.topRight === currentWeapon 
         && logicBoard.botRight === currentWeapon){
-            console.log('3,6,9');
-            console.log(players[currentIndex].name + ' wins');
             gameOver(players[currentIndex].name);
             winLines.makeRightWinLine();
         } else if (logicBoard.midLeft === currentWeapon
         && logicBoard.midMid === currentWeapon){
-            console.log('4,5,6');
-            console.log(players[currentIndex].name + ' wins');
             gameOver(players[currentIndex].name);
             winLines.makeHorizontalWinLine(); 
         } else if (checkBoardFull() === true) {
@@ -442,20 +405,14 @@ const gameLogic = (players, currentIndex, square) => {
     } else if (square === 'botLeft') {
         if (logicBoard.topLeft === currentWeapon 
         && logicBoard.midLeft === currentWeapon){
-            console.log('botLeft 1,4,7');
-            console.log(players[currentIndex].name + ' wins');
             gameOver(players[currentIndex].name);
             winLines.makeLeftWinLine();
         } else if (logicBoard.botMid === currentWeapon
         && logicBoard.botRight === currentWeapon){
-            console.log('botLeft 7,8,9');
-            console.log(players[currentIndex].name + ' wins');
             gameOver(players[currentIndex].name);
             winLines.makeBottomHorizontalWinLine();
         } else if (logicBoard.midMid === currentWeapon
         && logicBoard.topRight === currentWeapon) {
-            console.log('botLeft 3,5,7');
-            console.log(players[currentIndex].name + ' wins');
             gameOver(players[currentIndex].name);
             winLines.makeRightAngledWinLine();
         } else if (checkBoardFull() === true) {
@@ -464,14 +421,10 @@ const gameLogic = (players, currentIndex, square) => {
     } else if (square === 'botMid') {
         if (logicBoard.topMid === currentWeapon 
         && logicBoard.midMid === currentWeapon){
-            console.log('botMid 2,5,8');
-            console.log(players[currentIndex].name + ' wins');
             gameOver(players[currentIndex].name);
             winLines.makeWinLine();
         } else if (logicBoard.botLeft === currentWeapon
         && logicBoard.botRight === currentWeapon){
-            console.log('botMid 7,8,9');
-            console.log(players[currentIndex].name + ' wins');
             gameOver(players[currentIndex].name);
             winLines.makeBottomHorizontalWinLine();
         } else if (checkBoardFull() === true) {
@@ -480,20 +433,14 @@ const gameLogic = (players, currentIndex, square) => {
     } else if (square === 'botRight') {
         if (logicBoard.midRight === currentWeapon 
         && logicBoard.topRight === currentWeapon){
-            console.log('botRight 3,6,9');
-            console.log(players[currentIndex].name + ' wins');
             gameOver(players[currentIndex].name);
             winLines.makeRightWinLine();
         } else if (logicBoard.botMid === currentWeapon
         && logicBoard.botLeft === currentWeapon){
-            console.log('botRight 7,8,9');
-            console.log(players[currentIndex].name + ' wins');
             gameOver(players[currentIndex].name);
             winLines.makeBottomHorizontalWinLine(); 
         } else if (logicBoard.midMid === currentWeapon 
         && logicBoard.topLeft === currentWeapon) {
-            console.log('botRight 1,5,9');
-            console.log(players[currentIndex].name + ' wins');
             gameOver(players[currentIndex].name);
             winLines.makeLeftAngledWinLine();
         } else if (checkBoardFull() === true) {
@@ -502,6 +449,7 @@ const gameLogic = (players, currentIndex, square) => {
     }
 }
 
+//Determines if the logicBoard has any empty squares
 const checkBoardFull = () => {
     logicBoard = gameBoard.logicBoard;
     for (square in logicBoard) {
@@ -512,12 +460,14 @@ const checkBoardFull = () => {
     return true;
 }
 
+//Resets the logicBoard
 const resetBoard = () => {
     for (square in gameBoard.logicBoard) {
         gameBoard.logicBoard[square] = '';
     }
 }
 
+//Updates the page with the winner and buttons when the game ends
 const gameOver = (result) => {
     if (result !== 'tie') {
         //Swaps the index back to the winning player
@@ -539,15 +489,19 @@ const gameOver = (result) => {
         </h1>`;
     }
     
+    //Adds the containsMove class to all the squares so that they can no longer be clicked
     const boardSquares = document.getElementsByClassName('boardSquare');
     for (square of boardSquares) {
         if (!square.classList.contains('containsMove')) {
             square.classList.add('containsMove');
         }
     }
+    
+    //Updates gameStorage to show that the game has been run before
     const runOnce = true;
     gameStorage.gamePlayed = runOnce;
 
+    //Adds buttons to start a new game or play again
     const endGameButtonHolder = document.createElement('div');
     endGameButtonHolder.id = 'endGameButtonHolder';
     container.appendChild(endGameButtonHolder);
@@ -565,16 +519,16 @@ const gameOver = (result) => {
     newGameButton.textContent = 'New Game'
     endGameButtonHolder.appendChild(newGameButton);
     newGameButton.addEventListener('click', newGame);
-
 }
 
+//Function for removing all childNodes of a parentNode
 const removeChildNodes = (parent) => {
     while(parent.firstChild)  {
         parent.removeChild(parent.lastChild);
     }
 }
 
-
+//Continues the game with the current players
 const continueGame = () => {
     //Gets the gameHolder element and removes the old board
     const gameHolder = document.getElementById('gameHolder');
@@ -588,8 +542,8 @@ const continueGame = () => {
     initGame();
 }
 
+//Returns the page to its initial state
 const newGame = () => {
-    
     //Resets the page to the initial state
     const container = document.getElementById('container');
     removeChildNodes(container);
@@ -632,13 +586,14 @@ const newGame = () => {
     gameStorage.gamePlayed = null;
     resetBoard();
 
-    //Adds an event listener to the new startButton
+    //Adds an eventListener to the new startButton
     const startButton = (() => {
         const startButton = document.getElementById('startButton');
         startButton.addEventListener('click', initGame);
         
     })();
 
+    //Adds an eventListener to the weapons
     const swapWeapon = (() => {
         const weapons = document.getElementsByClassName('weapon');
         for(weapon of weapons){
@@ -657,7 +612,9 @@ const newGame = () => {
     })(); 
 }
 
+//Function for adding lines to the board upon game end
 const winLines = (() => {
+    //Vertical win lines
     const makeWinLine = () => {
         winLine = document.createElement('div');
         winLine.id = 'winLine'
@@ -679,6 +636,8 @@ const winLines = (() => {
         const gameHolder = document.getElementById('gameHolder');
         gameHolder.appendChild(winLine);
     }
+    
+    //Horizontal win lins
     const makeHorizontalWinLine = () => {
         horizontalWinLine = document.createElement('div');
         horizontalWinLine.id = 'horizontalWinLine'
@@ -700,6 +659,8 @@ const winLines = (() => {
         const gameHolder = document.getElementById('gameHolder');
         gameHolder.appendChild(bottomHorizontalWinLine);
     }
+    
+    //Angled win lines
     const makeRightAngledWinLine = () => {
         rightAngledWinLine = document.createElement('div');
         rightAngledWinLine.id = 'rightAngledWinLine'
@@ -714,8 +675,6 @@ const winLines = (() => {
         const gameHolder = document.getElementById('gameHolder');
         gameHolder.appendChild(leftAngledWinLine);
     }
-    
-    
     return {
         makeWinLine,
         makeLeftWinLine,
